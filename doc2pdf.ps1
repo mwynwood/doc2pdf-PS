@@ -1,4 +1,4 @@
-# doc2pdf-gui
+# doc2pdf
 # A script to bulk convert DOC and DOCX files to PDF
 # 
 # Created by Marcus Wynwood
