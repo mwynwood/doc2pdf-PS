@@ -1,4 +1,3 @@
-# docx2pdf
-Bulk converts Word Documents to PDFs
-
-Thanks to: https://stackoverflow.com/a/46287197 
+# doc2pdf
+A Powershell script to bulk convert Word Documents to PDFs.
+It works on .doc and .docx files.
