@@ -8,7 +8,7 @@
 # desired order.
 # 
 # Created by Marcus Wynwood
-# 27 April 2019
+# 28 April 2019
 # https://github.com/mwynwood/doc2pdf 
 #
 # Thanks to:
@@ -21,7 +21,7 @@ Add-Type -AssemblyName System.Windows.Forms
 
 # This function does all the tings.
 # Pass it a folder full of Word Docs, some text for the Cover Page, and an Image.
-Function doc2pdf2merge ($documents_path, $coverPageText, $coverPageImage) {
+Function doc2pdf2merge ($documents_path, $coverPageText1, $coverPageText2, $coverPageText3, $coverPageText4, $coverPageImage) {
         
     $nameOfMergedPDF = "merged.pdf"
     $nameOfCoverPage = "!!!CoverPage.pdf"
@@ -49,10 +49,22 @@ Function doc2pdf2merge ($documents_path, $coverPageText, $coverPageImage) {
     $page = $doc.AddPage()
     $gfx = [PdfSharp.Drawing.XGraphics]::FromPdfPage($page)
     $font = New-Object PdfSharp.Drawing.XFont("Calibri", 20, [PdfSharp.Drawing.XFontStyle]::Bold)
+    
     $rect = New-Object PdfSharp.Drawing.XRect(0,0,$page.Width, $page.Height)
-    $gfx.DrawString($coverPageText, $font, [PdfSharp.Drawing.XBrushes]::Black, $rect, [PdfSharp.Drawing.XStringFormats]::Center)
-    $image = [PdfSharp.Drawing.XImage]::FromFile($coverPageImage)    
+    $gfx.DrawString($coverPageText1, $font, [PdfSharp.Drawing.XBrushes]::Black, $rect, [PdfSharp.Drawing.XStringFormats]::Center)
+
+    $rect = New-Object PdfSharp.Drawing.XRect(0,40,$page.Width, $page.Height)
+    $gfx.DrawString($coverPageText2, $font, [PdfSharp.Drawing.XBrushes]::Black, $rect, [PdfSharp.Drawing.XStringFormats]::Center)
+
+    $rect = New-Object PdfSharp.Drawing.XRect(0,80,$page.Width, $page.Height)
+    $gfx.DrawString($coverPageText3, $font, [PdfSharp.Drawing.XBrushes]::Black, $rect, [PdfSharp.Drawing.XStringFormats]::Center)
+
+    $rect = New-Object PdfSharp.Drawing.XRect(0,120,$page.Width, $page.Height)
+    $gfx.DrawString($coverPageText4, $font, [PdfSharp.Drawing.XBrushes]::Black, $rect, [PdfSharp.Drawing.XStringFormats]::Center)
+
+    $image = [PdfSharp.Drawing.XImage]::FromFile($coverPageImage)
     $gfx.DrawImage($image, 200, 200, 200,200)
+    
     $doc.Save($documents_path + "\" + $nameOfCoverPage)
 
     # Do the Merge of all the PDFs
@@ -70,7 +82,11 @@ Function doc2pdf2merge ($documents_path, $coverPageText, $coverPageImage) {
 }
 
 # Let's Do It
-$title = Read-Host -Prompt "Enter a title"
+$title1 = Read-Host -Prompt "Enter Cover Page title 1"
+$title2 = Read-Host -Prompt "Enter Cover Page title 2"
+$title3 = Read-Host -Prompt "Enter Cover Page title 3"
+$title4 = Read-Host -Prompt "Enter Cover Page title 4"
+#TODO: Make this an array
 $img = $PSScriptRoot + "\logo.png"
 Write-Host "Select the folder that contains the Word Documents..."
 
@@ -79,6 +95,6 @@ $FolderBrowser.ShowNewFolderButton = $false;
 $FolderBrowser.Description = "Select the folder that contains the Word Documents"
 
 if($FolderBrowser.ShowDialog() -eq "OK") {
-    doc2pdf2merge $FolderBrowser.SelectedPath $title $img
+    doc2pdf2merge $FolderBrowser.SelectedPath $title1 $title2 $title3 $title4 $img
     $FolderBrowser.Dispose()
 }
