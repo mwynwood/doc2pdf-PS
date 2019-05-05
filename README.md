@@ -1,4 +1,4 @@
-# doc2pdf
+# doc2pdf-PS
 Powershell scripts to bulk convert Word Documents to PDFs.
 
 ## doc2pdf.ps1
